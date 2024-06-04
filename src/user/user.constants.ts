@@ -1,4 +1,6 @@
-export const UserErrorMessages = {};
+export const UserErrorMessages = {
+	ALREADY_EXIST: 'Такой пользователь уже существует'
+};
 
 export const UserDtoErrors = {
 	INVALID_NAME: 'Укажите настоящее имя',

@@ -5,11 +5,14 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { ValidationMiddleware } from '../midlewares/validation.middleware';
 import { RegisterDto } from './dto/register.dto';
-import { BadRequestException } from '../filters/exceptions/bad-request.exception';
+import { UserService } from './user.service';
 
 @injectable()
 export class UserController extends BaseController {
-	constructor(@inject(LoggerService) private logger: LoggerService) {
+	constructor(
+		@inject(LoggerService) private logger: LoggerService,
+		@inject(UserService) private userService: UserService
+	) {
 		super(logger);
 		this.bind('user', [
 			{
@@ -21,7 +24,8 @@ export class UserController extends BaseController {
 		]);
 	}
 
-	async register(req: Request<object, RegisterDto>, res: Response): Promise<void> {
-		throw new BadRequestException('Test');
+	async register({ body }: Request<object, RegisterDto>, res: Response): Promise<void> {
+		const user = await this.userService.create(body);
+		this.created(res, user);
 	}
 }
