@@ -4,6 +4,7 @@ import express, { Express, Router } from 'express';
 import { UserController } from './user/user.controller';
 import { ExceptionFilter } from './filters/exception.filter';
 import { DatabaseService } from './database/database.service';
+import { json } from 'body-parser';
 
 @injectable()
 export class App {
@@ -28,7 +29,9 @@ export class App {
 		this.prefix = '/' + prefix;
 	}
 
-	private useMiddlewares(): void {}
+	private useMiddlewares(): void {
+		this.router.use(json());
+	}
 
 	private useRoutes(): void {
 		this.router.use(this.userController.router.bind(this.userController));
