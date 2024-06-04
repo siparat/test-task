@@ -8,7 +8,8 @@
     "start": "node ./dist/main.ts",
     "lint": "eslint ./",
     "lint:fix": "eslint ./ --fix",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "migrate:dev": "prisma migrate dev"
   },
   "keywords": [],
   "author": "",
