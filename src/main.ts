@@ -3,11 +3,13 @@ import { App } from './app';
 import { LoggerService } from './logger/logger.service';
 import { userContainer } from './user/user.container';
 import { ExceptionFilter } from './filters/exception.filter';
+import { DatabaseService } from './database/database.service';
 
 const appContainer = new ContainerModule((bind) => {
 	bind(App).to(App);
 	bind(LoggerService).to(LoggerService);
 	bind(ExceptionFilter).to(ExceptionFilter);
+	bind(DatabaseService).to(DatabaseService);
 });
 
 const bootstrap = async (): Promise<void> => {

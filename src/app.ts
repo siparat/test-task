@@ -3,6 +3,7 @@ import { LoggerService } from './logger/logger.service';
 import express, { Express, Router } from 'express';
 import { UserController } from './user/user.controller';
 import { ExceptionFilter } from './filters/exception.filter';
+import { DatabaseService } from './database/database.service';
 
 @injectable()
 export class App {
@@ -14,7 +15,8 @@ export class App {
 	constructor(
 		@inject(LoggerService) private logger: LoggerService,
 		@inject(UserController) private userController: UserController,
-		@inject(ExceptionFilter) private exceptionFilter: ExceptionFilter
+		@inject(ExceptionFilter) private exceptionFilter: ExceptionFilter,
+		@inject(DatabaseService) private database: DatabaseService
 	) {
 		this.app = express();
 		this.router = Router();
@@ -37,6 +39,8 @@ export class App {
 	}
 
 	async init(): Promise<void> {
+		await this.database.connect();
+
 		this.useMiddlewares();
 		this.useRoutes();
 		this.useFilters();
