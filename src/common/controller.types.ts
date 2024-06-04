@@ -4,6 +4,6 @@ import { BaseMiddleware } from './base.middleware';
 export interface IRoute {
 	method: keyof Pick<Express, 'get' | 'post' | 'patch' | 'put' | 'delete'>;
 	path: string;
-	handler: (req: Request, res: Response, next: NextFunction) => void;
+	handler: (req: Request, res: Response, next: NextFunction) => Promise<void> | void;
 	middlewares?: BaseMiddleware[];
 }
