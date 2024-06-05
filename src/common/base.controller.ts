@@ -8,7 +8,7 @@ import 'reflect-metadata';
 
 @injectable()
 export class BaseController {
-	protected _router: Router;
+	private _router: Router;
 	private prefix: string;
 
 	constructor(private loggerService: LoggerService) {

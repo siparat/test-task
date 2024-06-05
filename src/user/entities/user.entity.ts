@@ -26,7 +26,7 @@ export class UserEntity {
 		return this;
 	}
 
-	compare(password: string): Promise<boolean> {
-		return compare(this.passwordHash, password);
+	comparePassword(password: string): Promise<boolean> {
+		return compare(password, this.passwordHash);
 	}
 }

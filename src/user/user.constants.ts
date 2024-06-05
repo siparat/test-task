@@ -1,5 +1,7 @@
 export const UserErrorMessages = {
-	ALREADY_EXIST: 'Такой пользователь уже существует'
+	ALREADY_EXIST: 'Такой пользователь уже существует',
+	NOT_FOUND: 'Пользователь не найден',
+	WRONG_PASSWORD: 'Неверный пароль'
 };
 
 export const UserDtoErrors = {
