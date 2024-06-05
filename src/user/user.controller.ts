@@ -5,16 +5,16 @@ import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { ValidationMiddleware } from '../midlewares/validation.middleware';
 import { RegisterDto } from './dto/register.dto';
-import { UserService } from './user.service';
 import { LoginDto } from './dto/login.dto';
 import { BadRequestException } from '../filters/exceptions/bad-request.exception';
 import { UserErrorMessages } from './user.constants';
+import { AuthService } from '../auth/auth.service';
 
 @injectable()
 export class UserController extends BaseController {
 	constructor(
 		@inject(LoggerService) private logger: LoggerService,
-		@inject(UserService) private userService: UserService
+		@inject(AuthService) private authService: AuthService
 	) {
 		super(logger);
 		this.bind('user', [
@@ -34,16 +34,16 @@ export class UserController extends BaseController {
 	}
 
 	async register({ body }: Request<object, RegisterDto>, res: Response): Promise<void> {
-		const user = await this.userService.create(body);
+		const user = await this.authService.create(body);
 		this.created(res, user);
 	}
 
 	async login({ body: { email, password } }: Request<object, LoginDto>, res: Response): Promise<void> {
-		const userIsValid = await this.userService.validateUser(email, password);
+		const userIsValid = await this.authService.validateUser(email, password);
 		if (!userIsValid) {
 			throw new BadRequestException(UserErrorMessages.WRONG_PASSWORD);
 		}
-		const token = await this.userService.generateToken({ email });
+		const token = await this.authService.generateToken({ email });
 		this.ok(res, token);
 	}
 }

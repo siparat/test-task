@@ -5,6 +5,7 @@ import { userContainer } from './user/user.container';
 import { ExceptionFilter } from './filters/exception.filter';
 import { DatabaseService } from './database/database.service';
 import { ConfigService } from './configs/config.service';
+import { authContainer } from './auth/auth.container';
 
 const appContainer = new ContainerModule((bind) => {
 	bind(App).to(App);
@@ -18,6 +19,7 @@ const bootstrap = async (): Promise<void> => {
 	const container = new Container();
 	container.load(appContainer);
 	container.load(userContainer);
+	container.load(authContainer);
 
 	const app = container.get(App);
 	app.setGlobalPrefix('v1');
