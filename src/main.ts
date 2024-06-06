@@ -6,6 +6,7 @@ import { ExceptionFilter } from './filters/exception.filter';
 import { DatabaseService } from './database/database.service';
 import { ConfigService } from './configs/config.service';
 import { authContainer } from './auth/auth.container';
+import { FileService } from './file/file.service';
 
 const appContainer = new ContainerModule((bind) => {
 	bind(App).to(App);
@@ -13,6 +14,7 @@ const appContainer = new ContainerModule((bind) => {
 	bind(ExceptionFilter).to(ExceptionFilter);
 	bind(DatabaseService).to(DatabaseService);
 	bind(ConfigService).to(ConfigService);
+	bind(FileService).to(FileService);
 });
 
 const bootstrap = async (): Promise<void> => {

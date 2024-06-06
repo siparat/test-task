@@ -14,4 +14,12 @@ export class UserRepository {
 	findByEmail(email: string): Promise<User | null> {
 		return this.database.user.findUnique({ where: { email } });
 	}
+
+	findById(id: number): Promise<User | null> {
+		return this.database.user.findUnique({ where: { id } });
+	}
+
+	updateById(id: number, entity: UserEntity): Promise<User> {
+		return this.database.user.update({ where: { id }, data: entity });
+	}
 }

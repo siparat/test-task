@@ -8,6 +8,8 @@ import { json } from 'body-parser';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { UserRepository } from './user/user.repository';
 import { ConfigService } from './configs/config.service';
+import { ProfileController } from './user/profile.controller';
+import { SAVE_DIR_PATH } from './common/common.constants';
 
 @injectable()
 export class App {
@@ -22,6 +24,7 @@ export class App {
 		@inject(ExceptionFilter) private exceptionFilter: ExceptionFilter,
 		@inject(DatabaseService) private database: DatabaseService,
 		@inject(UserRepository) private userRepository: UserRepository,
+		@inject(ProfileController) private profileController: ProfileController,
 		@inject(ConfigService) private configService: ConfigService
 	) {
 		this.app = express();
@@ -40,6 +43,7 @@ export class App {
 
 	private useRoutes(): void {
 		this.router.use(this.userController.router.bind(this.userController));
+		this.router.use(this.profileController.router.bind(this.profileController));
 	}
 
 	private useFilters(): void {
@@ -59,6 +63,7 @@ export class App {
 		this.useStrategies();
 
 		this.app.use(this.prefix, this.router);
+		this.app.use('/uploads', express.static(SAVE_DIR_PATH));
 		this.app.listen(this.port, () => {
 			this.logger.log(`Сервер запущен на http://localhost:${this.port}${this.prefix}`);
 		});
