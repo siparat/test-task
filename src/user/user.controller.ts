@@ -23,7 +23,7 @@ export class UserController extends BaseController {
 				path: 'register',
 				method: 'post',
 				handler: this.register,
-				middlewares: [new ValidationMiddleware(RegisterDto), new JwtAuthGuard()]
+				middlewares: [new ValidationMiddleware(RegisterDto)]
 			},
 			{
 				path: 'login',
