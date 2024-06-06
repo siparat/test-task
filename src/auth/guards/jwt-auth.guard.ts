@@ -1,7 +1,7 @@
-import { BaseMiddleware } from '../common/base.middleware';
+import { BaseMiddleware } from '../../common/base.middleware';
 import passport from 'passport';
-import { UnauthorizedException } from '../filters/exceptions/unauthorized.exception';
-import { AuthErrorMessages } from '../auth/auth.constants';
+import { UnauthorizedException } from '../../filters/exceptions/unauthorized.exception';
+import { AuthErrorMessages } from '../../auth/auth.constants';
 import { User } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
 

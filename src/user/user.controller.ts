@@ -9,7 +9,7 @@ import { LoginDto } from './dto/login.dto';
 import { BadRequestException } from '../filters/exceptions/bad-request.exception';
 import { UserErrorMessages } from './user.constants';
 import { AuthService } from '../auth/auth.service';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @injectable()
 export class UserController extends BaseController {

@@ -2,7 +2,7 @@ import { inject, injectable } from 'inversify';
 import { BaseController } from '../common/base.controller';
 import { LoggerService } from '../logger/logger.service';
 import { Request, Response } from 'express';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { ParseIntPipe } from '../pipes/parse-int.pipe';
 import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
