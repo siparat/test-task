@@ -45,6 +45,12 @@ export class ProfileController extends BaseController {
 				method: 'get',
 				handler: this.getById,
 				middlewares: [new JwtAuthGuard(), new ParseIntPipe('params', 'id')]
+			},
+			{
+				path: '',
+				method: 'get',
+				handler: this.getByPage,
+				middlewares: [new JwtAuthGuard(), new ParseIntPipe('query', 'page')]
 			}
 		]);
 	}
@@ -55,6 +61,12 @@ export class ProfileController extends BaseController {
 		if (!user) {
 			throw new NotFoundException(UserErrorMessages.NOT_FOUND);
 		}
+		this.ok(res, user);
+	}
+
+	async getByPage({ query }: Request, res: Response): Promise<void> {
+		const page = +(query?.id ?? 1);
+		const user = await this.userRepository.findByPage(page);
 		this.ok(res, user);
 	}
 

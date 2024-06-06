@@ -19,6 +19,12 @@ export class UserRepository {
 		return this.database.user.findUnique({ where: { id } });
 	}
 
+	findByPage(page: number): Promise<User[]> {
+		const take = 10;
+		const skip = take * (page - 1);
+		return this.database.user.findMany({ take, skip, orderBy: { createdAt: 'desc' } });
+	}
+
 	updateById(id: number, entity: UserEntity): Promise<User> {
 		return this.database.user.update({ where: { id }, data: entity });
 	}
