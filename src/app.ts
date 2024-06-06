@@ -5,6 +5,9 @@ import { UserController } from './user/user.controller';
 import { ExceptionFilter } from './filters/exception.filter';
 import { DatabaseService } from './database/database.service';
 import { json } from 'body-parser';
+import { JwtStrategy } from './auth/strategies/jwt.strategy';
+import { UserRepository } from './user/user.repository';
+import { ConfigService } from './configs/config.service';
 
 @injectable()
 export class App {
@@ -17,7 +20,9 @@ export class App {
 		@inject(LoggerService) private logger: LoggerService,
 		@inject(UserController) private userController: UserController,
 		@inject(ExceptionFilter) private exceptionFilter: ExceptionFilter,
-		@inject(DatabaseService) private database: DatabaseService
+		@inject(DatabaseService) private database: DatabaseService,
+		@inject(UserRepository) private userRepository: UserRepository,
+		@inject(ConfigService) private configService: ConfigService
 	) {
 		this.app = express();
 		this.router = Router();
@@ -41,12 +46,17 @@ export class App {
 		this.router.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
 	}
 
+	private useStrategies(): void {
+		new JwtStrategy(this.userRepository, this.configService);
+	}
+
 	async init(): Promise<void> {
 		await this.database.connect();
 
 		this.useMiddlewares();
 		this.useRoutes();
 		this.useFilters();
+		this.useStrategies();
 
 		this.app.use(this.prefix, this.router);
 		this.app.listen(this.port, () => {

@@ -9,6 +9,7 @@ import { LoginDto } from './dto/login.dto';
 import { BadRequestException } from '../filters/exceptions/bad-request.exception';
 import { UserErrorMessages } from './user.constants';
 import { AuthService } from '../auth/auth.service';
+import { JwtAuthGuard } from '../guards/jwt-auth.guard';
 
 @injectable()
 export class UserController extends BaseController {
@@ -22,13 +23,19 @@ export class UserController extends BaseController {
 				path: 'register',
 				method: 'post',
 				handler: this.register,
-				middlewares: [new ValidationMiddleware(RegisterDto)]
+				middlewares: [new ValidationMiddleware(RegisterDto), new JwtAuthGuard()]
 			},
 			{
 				path: 'login',
 				method: 'post',
 				handler: this.login,
 				middlewares: [new ValidationMiddleware(LoginDto)]
+			},
+			{
+				path: 'info',
+				method: 'get',
+				handler: this.info,
+				middlewares: [new JwtAuthGuard()]
 			}
 		]);
 	}
@@ -45,5 +52,9 @@ export class UserController extends BaseController {
 		}
 		const token = await this.authService.generateToken({ email });
 		this.ok(res, token);
+	}
+
+	info({ user }: Request, res: Response): void {
+		this.ok(res, user);
 	}
 }
